@@ -1,0 +1,99 @@
+NEXUS TECHNOLOGIES — FINANCIAL REPORT Q3 FY2024-25
+Classification: CONFIDENTIAL — Finance Team Only
+Department: Finance
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXECUTIVE SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Q3 FY25 was a strong quarter driven by enterprise SaaS growth and geographic expansion
+into Southeast Asian markets. Revenue grew 34% YoY. EBITDA margins improved to 22.4%
+from 18.1% in Q3 FY24 due to operational efficiency gains.
+
+1. REVENUE BREAKDOWN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Total Revenue Q3 FY25:    ₹ 148.6 Crores
+Total Revenue Q3 FY24:    ₹ 110.9 Crores
+YoY Growth:               34.0%
+
+By Segment:
+  SaaS Subscriptions:     ₹ 89.2 Cr   (60.0%)
+  Professional Services:  ₹ 35.5 Cr   (23.9%)
+  Marketplace & APIs:     ₹ 23.9 Cr   (16.1%)
+
+By Geography:
+  India:                  ₹ 72.4 Cr   (48.7%)
+  USA & Canada:           ₹ 41.6 Cr   (28.0%)
+  Middle East:            ₹ 19.8 Cr   (13.3%)
+  SE Asia (new):          ₹ 14.8 Cr   (10.0%)
+
+2. PROFIT & LOSS STATEMENT (Q3 FY25)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Gross Revenue:                         ₹ 148.60 Cr
+Less: Direct Costs:                    ₹  49.20 Cr
+Gross Profit:                          ₹  99.40 Cr  (Margin: 66.9%)
+
+Operating Expenses:
+  Employee Costs:                      ₹  42.60 Cr
+  Sales & Marketing:                   ₹  18.40 Cr
+  R&D:                                 ₹  12.20 Cr
+  G&A (General & Admin):              ₹   6.40 Cr
+  Depreciation & Amortisation:        ₹   3.80 Cr
+Total OpEx:                            ₹  83.40 Cr
+
+EBITDA:                                ₹  33.30 Cr  (Margin: 22.4%)
+EBIT:                                  ₹  29.50 Cr
+Interest & Financial Charges:         ₹   1.80 Cr
+PBT (Profit Before Tax):              ₹  27.70 Cr
+Tax (25%):                            ₹   6.93 Cr
+PAT (Profit After Tax):               ₹  20.77 Cr  (Margin: 14.0%)
+
+3. BALANCE SHEET HIGHLIGHTS (As on 30 Sep 2024)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cash & Cash Equivalents:              ₹  84.2 Cr
+Accounts Receivable:                  ₹  62.8 Cr   (DSO: 38 days)
+Total Current Assets:                 ₹ 189.4 Cr
+Fixed Assets (Net):                   ₹  44.6 Cr
+Total Assets:                         ₹ 312.8 Cr
+
+Short-term Debt:                      ₹  12.0 Cr
+Long-term Debt:                       ₹  28.5 Cr
+Total Equity:                         ₹ 198.6 Cr
+Debt-to-Equity Ratio:                 0.20x
+
+4. KEY FINANCIAL RATIOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Gross Margin:         66.9%   (Target: 65%+) ✅
+EBITDA Margin:        22.4%   (Target: 20%+) ✅
+Net Profit Margin:    14.0%   (Target: 12%+) ✅
+Current Ratio:         2.4x   (Target: 2x+)  ✅
+Quick Ratio:           1.9x   (Target: 1.5x+) ✅
+Return on Equity:     10.5%   (Annualised)
+Revenue per Employee: ₹11.9L  (Headcount: 1,248)
+
+5. BUDGET VS ACTUALS Q3 FY25
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                    Budget      Actual      Variance
+Revenue:           ₹140.0 Cr  ₹148.6 Cr   +6.1% ✅
+EBITDA:            ₹ 28.0 Cr  ₹ 33.3 Cr  +18.9% ✅
+Employee Costs:    ₹ 44.0 Cr  ₹ 42.6 Cr   -3.2% ✅
+S&M Spend:         ₹ 20.0 Cr  ₹ 18.4 Cr   -8.0% ✅
+R&D Spend:         ₹ 11.0 Cr  ₹ 12.2 Cr  +10.9% ⚠
+
+6. Q4 FY25 OUTLOOK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Revenue Guidance:   ₹155–162 Crores
+EBITDA Guidance:    ₹34–37 Crores
+Key Risks:
+  - Rupee depreciation against USD
+  - Delayed enterprise deal closures (3 deals >₹5Cr in final stages)
+  - Increased cloud infrastructure costs (AWS price revision Apr 2025)
+
+Full-year FY25 Revenue Target: ₹ 560 Crores (on track)

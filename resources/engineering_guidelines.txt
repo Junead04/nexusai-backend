@@ -1,0 +1,95 @@
+NEXUS TECHNOLOGIES — ENGINEERING GUIDELINES & STANDARDS
+Classification: CONFIDENTIAL — Engineering Team Only
+Department: Engineering
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. TECH STACK (Approved Technologies)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Backend:
+  Primary Language:   Python 3.11+, Go 1.22+
+  API Framework:      FastAPI (Python), Gin (Go)
+  ORM:                SQLAlchemy (Python), GORM (Go)
+  Task Queue:         Celery + Redis
+  Caching:            Redis 7.x
+
+Frontend:
+  Framework:          React 18 + TypeScript
+  State Management:   Zustand, React Query
+  UI Library:         shadcn/ui + Tailwind CSS
+  Build Tool:         Vite
+
+AI / ML:
+  LLM Orchestration:  LangChain, LangGraph
+  Vector DB:          Qdrant (production), ChromaDB (dev)
+  Embedding Models:   all-MiniLM-L6-v2, OpenAI text-embedding-3-small
+  ML Framework:       PyTorch, scikit-learn
+  Experiment Tracking: MLflow
+
+Infrastructure:
+  Cloud:              AWS (primary), GCP (secondary)
+  Container:          Docker + Kubernetes (EKS)
+  CI/CD:              GitHub Actions
+  IaC:                Terraform
+  Monitoring:         Prometheus + Grafana, DataDog
+  Logging:            ELK Stack (Elasticsearch, Logstash, Kibana)
+
+Databases:
+  Relational:         PostgreSQL 15 (RDS), MySQL (legacy)
+  NoSQL:              MongoDB, DynamoDB
+  Cache:              Redis, ElastiCache
+
+2. DEVELOPMENT STANDARDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Git Workflow:
+  - Branching: GitFlow (main, develop, feature/*, hotfix/*, release/*)
+  - Commit Convention: Conventional Commits (feat, fix, docs, chore...)
+  - PRs require minimum 2 approvals before merge to develop
+  - All PRs must pass CI checks (lint, test, security scan)
+
+Code Quality:
+  - Python: Black formatter, Flake8 linter, mypy type checker
+  - JS/TS: ESLint + Prettier
+  - Test Coverage: Minimum 80% for new code
+  - Code review SLA: 24 hours for regular PRs, 4 hours for hotfixes
+
+API Standards:
+  - RESTful APIs follow OpenAPI 3.0 spec
+  - GraphQL used for complex query interfaces
+  - All APIs require JWT authentication
+  - Rate limiting: 1000 req/min per API key (configurable)
+  - API versioning: /api/v1/, /api/v2/ (no breaking changes within version)
+
+3. SECURITY STANDARDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- All secrets stored in AWS Secrets Manager (NO hardcoded credentials)
+- OWASP Top 10 must be addressed in all web-facing services
+- Penetration testing conducted biannually by third party
+- SAST/DAST scans run on every PR via GitHub Actions
+- Data encryption: AES-256 at rest, TLS 1.3 in transit
+- Access: Least privilege IAM roles, MFA mandatory for all engineers
+
+4. INCIDENT MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Severity Levels:
+  P0 (Critical): Production down / data loss — Response: 15 min, Fix: 2 hrs
+  P1 (High):     Major feature broken — Response: 1 hr, Fix: 8 hrs
+  P2 (Medium):   Degraded performance — Response: 4 hrs, Fix: 48 hrs
+  P3 (Low):      Minor bugs — Response: 24 hrs, Fix: Sprint cycle
+
+On-call Rotation: Weekly rotation (every engineer participates)
+PagerDuty: Primary alerting tool
+Post-mortems: Required for P0/P1 within 48 hours
+
+5. SPRINT & DELIVERY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sprint Duration: 2 weeks
+Ceremonies: Daily standup (15 min), Sprint planning, Retrospective, Demo
+Velocity Target: 80 story points/sprint (team of 6)
+Release Cadence: Biweekly production releases (Wednesday deployments)
+Feature Flags: LaunchDarkly used for all new feature rollouts

@@ -1,0 +1,79 @@
+NEXUS TECHNOLOGIES — HR DEPARTMENT DOCUMENT
+Classification: CONFIDENTIAL — HR Team Only
+Department: HR
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. RECRUITMENT PROCESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Stage 1 — Job Requisition:
+  - Department head raises a job requisition via HR portal
+  - HR validates headcount budget with Finance
+  - JD (Job Description) drafted within 3 business days
+
+Stage 2 — Sourcing:
+  - Primary: LinkedIn Recruiter, Naukri, company careers page
+  - Secondary: Employee referrals (₹25,000 referral bonus for successful hire)
+  - Target TAT (Time-to-Hire): 30 days for junior, 45 days for senior roles
+
+Stage 3 — Interview Process:
+  Round 1: HR screening (30 min)
+  Round 2: Technical assessment or case study
+  Round 3: Panel interview with team lead
+  Round 4 (senior roles): Leadership interview with VP/CXO
+
+Stage 4 — Offer & Onboarding:
+  - Offer letter issued within 2 business days of final approval
+  - Background verification via AuthBridge (7–10 days)
+  - Onboarding kit dispatched before Day 1
+
+2. SALARY BANDS (FY 2024-25)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Level 1 — Junior Analyst / Associate:     ₹4,00,000 – ₹7,00,000 CTC
+Level 2 — Senior Analyst / Lead:          ₹7,00,000 – ₹14,00,000 CTC
+Level 3 — Manager / Principal:            ₹14,00,000 – ₹25,00,000 CTC
+Level 4 — Senior Manager / Director:      ₹25,00,000 – ₹45,00,000 CTC
+Level 5 — VP / AVP:                       ₹45,00,000 – ₹80,00,000 CTC
+Level 6 — CXO / SVP:                      ₹80,00,000+ CTC
+
+Variable Pay: 10–30% of CTC based on level and performance.
+ESOP Policy: Levels 4 and above are eligible for ESOP grants (4-year vesting, 1-year cliff).
+
+3. ATTRITION & RETENTION DATA (FY 2023-24)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Total Headcount (End of FY): 1,248 employees
+Voluntary Attrition Rate: 14.2%
+Involuntary Attrition: 1.8%
+Top Reasons for Attrition (Exit Survey):
+  1. Better compensation elsewhere (38%)
+  2. Career growth opportunities (27%)
+  3. Work-life balance (18%)
+  4. Relocation (11%)
+  5. Other (6%)
+
+Retention Initiatives Launched FY24:
+  - Manager Effectiveness Training Program
+  - Flexible Benefits Platform (choose your perks)
+  - Stay Interview Program (conducted at 6-month mark)
+
+4. TRAINING & DEVELOPMENT CALENDAR Q4 2024
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Oct 2024: Leadership Essentials (Levels 3+)
+Nov 2024: Data Literacy for Non-Tech Teams
+Dec 2024: AI Tools for Productivity (All Employees)
+Ongoing:  Coursera/Udemy licenses available via L&D portal
+
+5. DISCIPLINARY PROCEDURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Verbal Warning (documented in HR system)
+Step 2: Written Warning (formal letter issued)
+Step 3: Performance Improvement Plan (30–60 days)
+Step 4: Termination (subject to Legal & HR review)
+
+All disciplinary actions require HR Business Partner sign-off.
+Appeals can be filed within 7 days of the action to the CHRO.
