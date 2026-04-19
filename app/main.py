@@ -49,3 +49,18 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "healthy", "environment": settings.environment}
+
+import subprocess
+import sys
+import os
+
+@app.on_event("startup")
+def seed_data():
+    try:
+        subprocess.run(
+            [sys.executable, os.path.join(os.getcwd(), "seed_data.py")],
+            check=True
+        )
+        print("✅ Seed data loaded")
+    except Exception as e:
+        print("❌ Seed failed:", e)
