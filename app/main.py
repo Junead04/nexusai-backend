@@ -53,9 +53,9 @@ def health():
 import subprocess
 import sys
 import os
+import threading
 
-@app.on_event("startup")
-def seed_data():
+def run_seed():
     try:
         subprocess.run(
             [sys.executable, os.path.join(os.getcwd(), "seed_data.py")],
@@ -64,3 +64,7 @@ def seed_data():
         print("✅ Seed data loaded")
     except Exception as e:
         print("❌ Seed failed:", e)
+
+@app.on_event("startup")
+def seed_data():
+    threading.Thread(target=run_seed).start()
