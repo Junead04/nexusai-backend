@@ -20,12 +20,10 @@ app = FastAPI(title="NexusAI API", version="2.0.0", docs_url="/docs")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        settings.frontend_url,
+        "https://nexusai-frontend-nine.vercel.app",  # ✅ your frontend
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
-        "https://nexusai-frontend-nine.vercel.app",
-        "https://*.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
