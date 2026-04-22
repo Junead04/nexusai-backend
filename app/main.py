@@ -1,30 +1,26 @@
-"""NexusAI FastAPI backend — production ready"""
+"""NexusAI FastAPI backend"""
 import os, threading
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from app.core.config import settings
 
-# ── LangSmith ─────────────────────────────────────────────────────
-if settings.langchain_api_key and len(settings.langchain_api_key) > 20:
-    os.environ["LANGCHAIN_TRACING_V2"] = "true"
-    os.environ["LANGCHAIN_API_KEY"]     = settings.langchain_api_key
-    os.environ["LANGCHAIN_PROJECT"]     = settings.langchain_project
-else:
-    os.environ["LANGCHAIN_TRACING_V2"] = "false"
+# Disable LangSmith
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
 
 from app.api import auth_router, chat_router, docs_router, oauth_router
 
 app = FastAPI(title="NexusAI API", version="2.0.0", docs_url="/docs")
 
-# ── CORS — wildcard for Render free tier compatibility ─────────────
-# JWT uses Authorization: Bearer (not cookies) so credentials=False is correct
+# ── CORS — must be FIRST middleware, before everything else ────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=False,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],
+    max_age=86400,
 )
 
 app.include_router(auth_router.router,  prefix="/api")
@@ -53,7 +49,6 @@ def _run_seed():
 async def startup_event():
     threading.Thread(target=_run_seed, daemon=True).start()
 
-# ── Health/ping endpoints ──────────────────────────────────────────
 @app.get("/")
 def root():
     from pathlib import Path
@@ -73,5 +68,4 @@ def health():
 
 @app.get("/ping")
 def ping():
-    """Lightweight ping — use this to wake up Render before sending chat requests."""
     return {"pong": True}
