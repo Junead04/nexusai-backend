@@ -1,33 +1,33 @@
-"""FAISS vector store — memory optimised for Railway 512MB"""
+"""FAISS vector store — uses tiny embedding model to fit in 512MB Railway RAM"""
 import os, io, time, hashlib, pickle, gc
 from pathlib import Path
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import PyPDF2, docx
 
 FAISS_PATH = "./faiss_db"
+# all-MiniLM-L3-v2 uses ~100MB RAM vs ~380MB for L6 — fits in Railway 512MB
+EMBED_MODEL = "all-MiniLM-L3-v2"
+
 _store: dict = {}
 _embeddings = None
 
 def _get_emb():
-    """Load embedding model only when needed."""
     global _embeddings
     if _embeddings is None:
-        from langchain_community.embeddings import HuggingFaceEmbeddings
         _embeddings = HuggingFaceEmbeddings(
-            model_name="all-MiniLM-L6-v2",
+            model_name=EMBED_MODEL,
             model_kwargs={"device": "cpu"},
             encode_kwargs={"normalize_embeddings": True},
         )
     return _embeddings
 
 def _release_emb():
-    """Free embedding model from RAM after use — saves ~400MB."""
     global _embeddings
-    if _embeddings is not None:
-        _embeddings = None
-        gc.collect()
+    _embeddings = None
+    gc.collect()
 
 def _load_store():
     global _store
@@ -43,7 +43,7 @@ def _load_store():
                 _store[dept] = pickle.load(fh)
             print(f"✅ {dept}.pkl loaded OK")
         except Exception as e:
-            print(f"⚠️ {dept}.pkl broken: {e} — deleting")
+            print(f"⚠️ {dept}.pkl broken: {e} — will re-seed")
             try: f.unlink()
             except: pass
 
@@ -82,13 +82,11 @@ def ingest(file_bytes, filename, department, uploaded_by, description=""):
     else:
         _store[department] = FAISS.from_documents(docs, emb)
     _save(department)
-    # Release model after seeding to free ~400MB RAM
     _release_emb()
     return {"success": True, "doc_id": doc_id, "chunks": len(chunks),
             "filename": filename, "department": department}
 
 def query_docs(query: str, allowed_departments: list, k: int = 3) -> list:
-    """Query FAISS using embedding model, then release it immediately."""
     _load_store()
     if not _store:
         return []
@@ -100,8 +98,8 @@ def query_docs(query: str, allowed_departments: list, k: int = 3) -> list:
                 results.extend(_store[dept].similarity_search(query, k=k))
             except Exception as e:
                 print(f"⚠️ Query error {dept}: {e}")
-    # Release embedding model immediately after query to free RAM for LLM call
-    _release_emb()
+    _release_emb()  # Free ~100MB immediately after query
+    gc.collect()
     return results[:k]
 
 def list_docs(allowed_departments: list) -> list:
