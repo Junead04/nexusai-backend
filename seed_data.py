@@ -1,22 +1,16 @@
 """
-Auto-seeds FAISS vector store on startup.
-Skips if already seeded (faiss_db folder exists with data).
+Seeds FAISS vector store from resource txt files.
+Runs on startup — skips departments that already have valid pkl files.
 """
 import sys, os
 from pathlib import Path
 
 sys.path.insert(0, '.')
 from dotenv import load_dotenv; load_dotenv()
-from app.core.vectorstore import ingest
+from app.core.vectorstore import ingest, _get_emb
 
-# ✅ Correct path — must match FAISS_PATH in vectorstore.py
-FAISS_DB_PATH = Path("faiss_db")
-
-# Check if already seeded (any .pkl file exists)
-existing = list(FAISS_DB_PATH.glob("*.pkl")) if FAISS_DB_PATH.exists() else []
-if existing:
-    print(f"✅ FAISS already seeded ({len(existing)} departments). Skipping...")
-    sys.exit(0)
+FAISS_DB = Path("faiss_db")
+FAISS_DB.mkdir(exist_ok=True)
 
 DOCS = [
     ("resources/employee_handbook.txt",     "general",     "Company-wide employee handbook 2024"),
@@ -25,23 +19,46 @@ DOCS = [
     ("resources/engineering_guidelines.txt", "engineering", "Tech stack, dev standards, incident mgmt"),
 ]
 
+# Pre-load the embedding model once (avoids repeated downloads)
+print("🔄 Loading embedding model...")
+try:
+    _get_emb()
+    print("✅ Embedding model ready")
+except Exception as e:
+    print(f"❌ Embedding model failed: {e}")
+    sys.exit(1)
+
 print("\n🚀 NexusAI — Seeding FAISS Vector Store\n" + "─"*50)
-success_count = 0
+seeded = 0
+
 for path, dept, desc in DOCS:
+    pkl_path = FAISS_DB / f"{dept}.pkl"
+    
+    # Skip if pkl already exists and is valid (non-zero size)
+    if pkl_path.exists() and pkl_path.stat().st_size > 100:
+        print(f"  ✅ {dept} already seeded — skipping")
+        seeded += 1
+        continue
+    
     p = Path(path)
     if not p.exists():
-        print(f"  ⚠  Not found: {path}")
+        print(f"  ⚠  Resource not found: {path}")
         continue
+
     print(f"  📄 {p.name} → [{dept}]", end="  ", flush=True)
     try:
         r = ingest(p.read_bytes(), p.name, dept, "system@nexus.ai", desc)
         if r["success"]:
             print(f"✅ {r['chunks']} chunks")
-            success_count += 1
+            seeded += 1
         else:
             print(f"❌ {r['reason']}")
     except Exception as e:
         print(f"❌ Error: {e}")
 
 print("\n" + "─"*50)
-print(f"✅ Seeded {success_count}/4 departments successfully!")
+print(f"✅ Done! {seeded}/4 departments ready")
+
+if seeded == 0:
+    print("❌ No departments seeded — check resource files exist")
+    sys.exit(1)
