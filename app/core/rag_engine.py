@@ -27,7 +27,7 @@ def _llm(use_complex: bool) -> ChatGroq:
         api_key=key,
         model=model,
         temperature=0.1,
-        max_tokens=800,          # Keep short = faster response
+        max_tokens=512,          # Keep short = faster response
         request_timeout=20,      # 20s hard timeout — Render limit is 30s
     )
 

@@ -1,19 +1,20 @@
-"""FAISS vector store — Railway compatible"""
-import os, io, time, hashlib, pickle
+"""FAISS vector store — memory optimised for Railway 512MB"""
+import os, io, time, hashlib, pickle, gc
 from pathlib import Path
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import PyPDF2, docx
 
 FAISS_PATH = "./faiss_db"
-_embeddings = None
 _store: dict = {}
+_embeddings = None
 
 def _get_emb():
+    """Load embedding model only when needed."""
     global _embeddings
-    if not _embeddings:
+    if _embeddings is None:
+        from langchain_community.embeddings import HuggingFaceEmbeddings
         _embeddings = HuggingFaceEmbeddings(
             model_name="all-MiniLM-L6-v2",
             model_kwargs={"device": "cpu"},
@@ -21,9 +22,17 @@ def _get_emb():
         )
     return _embeddings
 
+def _release_emb():
+    """Free embedding model from RAM after use — saves ~400MB."""
+    global _embeddings
+    if _embeddings is not None:
+        _embeddings = None
+        gc.collect()
+
 def _load_store():
     global _store
-    if _store: return
+    if _store:
+        return
     p = Path(FAISS_PATH)
     if not p.exists():
         return
@@ -32,14 +41,11 @@ def _load_store():
         try:
             with open(f, "rb") as fh:
                 _store[dept] = pickle.load(fh)
-            print(f"✅ Loaded FAISS store: {dept}")
+            print(f"✅ {dept}.pkl loaded OK")
         except Exception as e:
-            print(f"⚠️ Could not load {dept}.pkl: {e} — will re-seed this department")
-            # Delete the broken pkl so seed_data.py recreates it
-            try:
-                f.unlink()
-            except:
-                pass
+            print(f"⚠️ {dept}.pkl broken: {e} — deleting")
+            try: f.unlink()
+            except: pass
 
 def _save(dept: str):
     Path(FAISS_PATH).mkdir(exist_ok=True)
@@ -56,8 +62,7 @@ def _extract(file_bytes: bytes, filename: str) -> str:
         return "\n".join(p.text for p in d.paragraphs)
     return file_bytes.decode("utf-8", errors="replace")
 
-def ingest(file_bytes: bytes, filename: str, department: str,
-           uploaded_by: str, description: str = "") -> dict:
+def ingest(file_bytes, filename, department, uploaded_by, description=""):
     text = _extract(file_bytes, filename)
     if not text.strip():
         return {"success": False, "reason": "Could not extract text."}
@@ -71,23 +76,32 @@ def ingest(file_bytes: bytes, filename: str, department: str,
         "chunk_index": i, "ingested_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }) for i, c in enumerate(chunks)]
     _load_store()
+    emb = _get_emb()
     if department in _store:
         _store[department].add_documents(docs)
     else:
-        _store[department] = FAISS.from_documents(docs, _get_emb())
+        _store[department] = FAISS.from_documents(docs, emb)
     _save(department)
+    # Release model after seeding to free ~400MB RAM
+    _release_emb()
     return {"success": True, "doc_id": doc_id, "chunks": len(chunks),
             "filename": filename, "department": department}
 
-def query_docs(query: str, allowed_departments: list, k: int = 5) -> list:
+def query_docs(query: str, allowed_departments: list, k: int = 3) -> list:
+    """Query FAISS using embedding model, then release it immediately."""
     _load_store()
+    if not _store:
+        return []
+    emb = _get_emb()
     results = []
     for dept in allowed_departments:
         if dept in _store:
             try:
                 results.extend(_store[dept].similarity_search(query, k=k))
             except Exception as e:
-                print(f"⚠️ Query error for {dept}: {e}")
+                print(f"⚠️ Query error {dept}: {e}")
+    # Release embedding model immediately after query to free RAM for LLM call
+    _release_emb()
     return results[:k]
 
 def list_docs(allowed_departments: list) -> list:
