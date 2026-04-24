@@ -1,16 +1,13 @@
-"""
-Seeds FAISS vector store from resource txt files.
-Runs on startup — skips departments that already have valid pkl files.
-"""
-import sys, os
+"""Seeds TF-IDF vector store from resource txt files on startup."""
+import sys
 from pathlib import Path
 
 sys.path.insert(0, '.')
 from dotenv import load_dotenv; load_dotenv()
-from app.core.vectorstore import ingest, _get_emb
+from app.core.vectorstore import ingest
 
-FAISS_DB = Path("faiss_db")
-FAISS_DB.mkdir(exist_ok=True)
+STORE_PATH = Path("faiss_db")
+STORE_PATH.mkdir(exist_ok=True)
 
 DOCS = [
     ("resources/employee_handbook.txt",     "general",     "Company-wide employee handbook 2024"),
@@ -19,32 +16,19 @@ DOCS = [
     ("resources/engineering_guidelines.txt", "engineering", "Tech stack, dev standards, incident mgmt"),
 ]
 
-# Pre-load the embedding model once (avoids repeated downloads)
-print("🔄 Loading embedding model...")
-try:
-    _get_emb()
-    print("✅ Embedding model ready")
-except Exception as e:
-    print(f"❌ Embedding model failed: {e}")
-    sys.exit(1)
-
-print("\n🚀 NexusAI — Seeding FAISS Vector Store\n" + "─"*50)
+print("\n🚀 NexusAI — Seeding TF-IDF Store\n" + "─"*50)
 seeded = 0
 
 for path, dept, desc in DOCS:
-    pkl_path = FAISS_DB / f"{dept}.pkl"
-    
-    # Skip if pkl already exists and is valid (non-zero size)
-    if pkl_path.exists() and pkl_path.stat().st_size > 100:
+    pkl = STORE_PATH / f"{dept}.pkl"
+    if pkl.exists() and pkl.stat().st_size > 100:
         print(f"  ✅ {dept} already seeded — skipping")
         seeded += 1
         continue
-    
     p = Path(path)
     if not p.exists():
-        print(f"  ⚠  Resource not found: {path}")
+        print(f"  ⚠  Not found: {path}")
         continue
-
     print(f"  📄 {p.name} → [{dept}]", end="  ", flush=True)
     try:
         r = ingest(p.read_bytes(), p.name, dept, "system@nexus.ai", desc)
@@ -54,11 +38,9 @@ for path, dept, desc in DOCS:
         else:
             print(f"❌ {r['reason']}")
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"❌ {e}")
 
 print("\n" + "─"*50)
 print(f"✅ Done! {seeded}/4 departments ready")
-
 if seeded == 0:
-    print("❌ No departments seeded — check resource files exist")
     sys.exit(1)
